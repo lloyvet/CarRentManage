@@ -28,4 +28,16 @@ public interface MenuService {
      * @return
      */
     DataGridView queryAllMenu(MenuVo menuVo);
+
+    void addMenu(MenuVo menuVo);
+
+    void updateMenu(MenuVo menuVo);
+
+    Integer queryMenuByPid(Integer id);
+
+    /**
+     * 根据id删除菜单
+     * @param menuVo
+     */
+    void deleteMenu(MenuVo menuVo);
 }

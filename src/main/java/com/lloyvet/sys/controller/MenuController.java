@@ -5,17 +5,17 @@ import com.lloyvet.sys.domain.Menu;
 import com.lloyvet.sys.domain.User;
 import com.lloyvet.sys.service.MenuService;
 import com.lloyvet.sys.utils.DataGridView;
+import com.lloyvet.sys.utils.ResultObj;
 import com.lloyvet.sys.utils.TreeNode;
 import com.lloyvet.sys.utils.WebUtils;
 import com.lloyvet.sys.vo.MenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sun.reflect.generics.tree.Tree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 菜单管理控制器
@@ -80,5 +80,59 @@ public class MenuController {
     public DataGridView loadAllMenu(MenuVo menuVo){
         menuVo.setAvailable(SysConstast.AVAILABLE_TRUE);//只查询可用的
         return menuService.queryAllMenu(menuVo);
+    }
+    /**
+     * 添加菜单
+     */
+    @RequestMapping("addMenu")
+    public ResultObj addMenu(MenuVo menuVo){
+        try {
+            menuService.addMenu(menuVo);
+            return ResultObj.ADD_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.ADD_ERROR;
+        }
+
+    }
+    /**
+     * 修改菜单
+     */
+    @RequestMapping("updateMenu")
+    public ResultObj updateMenu(MenuVo menuVo){
+        try {
+            menuService.updateMenu(menuVo);
+            return ResultObj.UPDATE_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.UPDATE_ERROR;
+        }
+    }
+    /**
+     * 删除菜单
+     */
+    @RequestMapping("deleteMenu")
+    public ResultObj deleteMenu(MenuVo menuVo){
+        try {
+            menuService.deleteMenu(menuVo);
+            return ResultObj.DELETE_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.DELETE_ERROR;
+        }
+    }
+    /**
+     * 根据id判断当前菜单有没有子节点
+     * 有返回code>=0
+     */
+    @RequestMapping("checkMenuHasChildren")
+    public ResultObj checkMenuHasChildren(MenuVo menuVo){
+        //根据pid查询菜单数量
+        Integer count = menuService.queryMenuByPid(menuVo.getId());
+        if(count>0){
+            return ResultObj.STATUS_TRUE;
+        }else {
+            return ResultObj.STATUS_FALSE;
+        }
     }
 }
