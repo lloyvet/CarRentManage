@@ -30,5 +30,21 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
+    /**
+     * 登录
+     * @param user
+     * @return
+     */
     User login(User user);
+    /**
+     * 查询
+     */
+    List<User> queryAllUser(User user);
+
+    /**
+     * 保存用户和角色的关系
+     * @param userid
+     * @param rid
+     */
+    void insertUserRole(@Param("uid") Integer userid, @Param("rid") Integer rid);
 }

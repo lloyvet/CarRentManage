@@ -17,6 +17,26 @@ public class TreeNode {
     private String target;
     private List<TreeNode> children = new ArrayList<>();
 
+    public String getCheckArr() {
+        return checkArr;
+    }
+
+    public void setCheckArr(String checkArr) {
+        this.checkArr = checkArr;
+    }
+
+    public TreeNode(Integer id, Integer pid, String title, Boolean spread, String checkArr) {
+        this.id = id;
+        this.pid = pid;
+        this.title = title;
+        this.spread = spread;
+        this.checkArr = checkArr;
+    }
+
+
+    //复选树的必要属性
+    private String checkArr = "0";//选中就是1
+
     public TreeNode() {
     }
 

@@ -3,6 +3,7 @@ package com.lloyvet.sys.service;
 import com.lloyvet.sys.domain.Menu;
 import com.lloyvet.sys.domain.Role;
 import com.lloyvet.sys.utils.DataGridView;
+import com.lloyvet.sys.utils.ResultObj;
 import com.lloyvet.sys.vo.RoleVo;
 
 import java.util.List;
@@ -54,4 +55,10 @@ public interface RoleService {
      * @param ids
      */
     void deleteBatchRole(Integer[] ids);
+    /**
+     * 初始化角色分配菜单的json
+     */
+    DataGridView initRoleMenuTreeJson(Integer roleId);
+
+    void saveRoleMenu(RoleVo roleVo);
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,4 +90,24 @@ public class RoleController {
         }
     }
 
+    /**
+     * 初始化角色分配菜单的json
+     */
+    @RequestMapping("initRoleMenuTreeJson")
+    public DataGridView initRoleMenuTreeJson(Integer roleId){
+        return roleService.initRoleMenuTreeJson(roleId);
+    }
+    /**
+     * 保存角色分配
+     */
+    @RequestMapping("saveRoleMenu")
+    public ResultObj saveRoleMenu(RoleVo roleVo){
+        try {
+            roleService.saveRoleMenu(roleVo);
+            return ResultObj.DISPATCH_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.DISPATCH_ERROR;
+        }
+    }
 }
