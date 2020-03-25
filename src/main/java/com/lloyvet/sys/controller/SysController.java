@@ -45,5 +45,18 @@ public class SysController {
     public String toUserManager(){
         return "system/user/userManager";
     }
-
+    /**
+     * 跳转日志管理
+     */
+    @RequestMapping("toLogInfoManager")
+    public String toLogInfoManager(){
+       return "system/logInfo/logInfoManager";
+    }
+    /**
+     * 跳转公告管理页面
+     */
+    @RequestMapping("toNewsManager")
+    public String toNewsManager(){
+        return "/system/news/newsManager";
+    }
 }

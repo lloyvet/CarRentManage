@@ -33,7 +33,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 <!--        指定每个表生成策略-->
-        <table tableName="sys_role" domainObjectName="Role"></table>
+        <table tableName="sys_news" domainObjectName="News"></table>
 
     </context>
 </generatorConfiguration>

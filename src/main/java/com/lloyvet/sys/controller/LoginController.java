@@ -2,13 +2,17 @@ package com.lloyvet.sys.controller;
 
 import com.lloyvet.sys.constast.SysConstast;
 import com.lloyvet.sys.domain.User;
+import com.lloyvet.sys.service.LogInfoService;
 import com.lloyvet.sys.service.UserService;
 import com.lloyvet.sys.utils.WebUtils;
+import com.lloyvet.sys.vo.LogInfoVo;
 import com.lloyvet.sys.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Date;
 
 /**
  * 用户登录控制器
@@ -19,7 +23,8 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private LogInfoService logInfoService;
     /**
      * 跳转到登录页面
      */
@@ -37,6 +42,11 @@ public class LoginController {
             //放进session
             WebUtils.getHttpSession().setAttribute("user",user);
             //记录登录日志向sys_login_log里面插入数据
+            LogInfoVo logInfoVo = new LogInfoVo();
+            logInfoVo.setStartTime(new Date());
+            logInfoVo.setLoginname(user.getRealname()+"-"+user.getLoginname());
+            logInfoVo.setLoginip(WebUtils.getHttpServletRequest().getRemoteAddr());
+            logInfoService.addLogInfo(logInfoVo);
             return "system/main/index";
         }else {
             model.addAttribute("error", SysConstast.USER_LOGIN_ERROR_MSG);
