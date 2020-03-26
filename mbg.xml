@@ -20,20 +20,20 @@
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
 <!--        指定javaBean生成的位置-->
-        <javaModelGenerator targetPackage="com.lloyvet.sys.domain" targetProject=".\src\main\java">
+        <javaModelGenerator targetPackage="com.lloyvet.bus.domain" targetProject=".\src\main\java">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 <!--        指定映射文件生成的位置-->
-        <sqlMapGenerator targetPackage="sys"  targetProject=".\src\main\resources\mapper">
+        <sqlMapGenerator targetPackage="bus"  targetProject=".\src\main\resources\mapper">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 <!--        指定dao接口生成的位置-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.lloyvet.sys.mapper"  targetProject=".\src\main\java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.lloyvet.bus.mapper"  targetProject=".\src\main\java">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 <!--        指定每个表生成策略-->
-        <table tableName="sys_news" domainObjectName="News"></table>
+        <table tableName="bus_car" domainObjectName="Car"></table>
 
     </context>
 </generatorConfiguration>
