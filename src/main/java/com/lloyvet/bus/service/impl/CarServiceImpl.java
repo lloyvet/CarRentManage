@@ -6,6 +6,8 @@ import com.lloyvet.bus.domain.Car;
 import com.lloyvet.bus.mapper.CarMapper;
 import com.lloyvet.bus.service.CarService;
 import com.lloyvet.bus.vo.CarVo;
+import com.lloyvet.sys.constast.SysConstast;
+import com.lloyvet.sys.utils.AppFileUtils;
 import com.lloyvet.sys.utils.DataGridView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,12 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteCar(String carnumber) {
+        //先删除图片
+        Car car = carMapper.selectByPrimaryKey(carnumber);
+        if(!car.getCarimg().equals(SysConstast.DEFAULT_CAR_IMG)){
+            AppFileUtils.deleteFileUsePath(car.getCarimg());
+        }
+        //删除车辆信息
         carMapper.deleteByPrimaryKey(carnumber);
     }
 
@@ -46,5 +54,10 @@ public class CarServiceImpl implements CarService {
         for (String carnumber : carnumbers) {
             deleteCar(carnumber);
         }
+    }
+
+    @Override
+    public Car queryCarByCarNumber(String carnumber) {
+        return carMapper.selectByPrimaryKey(carnumber);
     }
 }

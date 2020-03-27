@@ -13,8 +13,8 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="format-detection" content="telephone=no">
 	<link rel="icon" href="favicon.ico">
-	<link rel="stylesheet" href="${ctx }/resources/layui/css/layui.css" media="all" />
-	<link rel="stylesheet" href="${ctx }/resources/css/public.css" media="all" />
+	<link rel="stylesheet" href="${ctx }/static/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="${ctx }/static/css/public.css" media="all" />
 </head>
 <body class="childrenBody">
 	<!-- 搜索条件开始 -->
@@ -90,7 +90,7 @@
 						<div class="layui-form-item magt3">
 							<label class="layui-form-label">车牌号:</label>
 							<div class="layui-input-block">
-								<input type="text" name="carnumber" class="layui-input" lay-verify="required" placeholder="请输入车牌号">
+								<input type="text" name="carnumber" id="carnumber" class="layui-input" lay-verify="required" placeholder="请输入车牌号">
 							</div>
 						</div>
 						<div class="layui-form-item">
@@ -160,7 +160,14 @@
 	</div>
 	<!-- 添加和修改的弹出层结束 -->
 	
-	<script src="${ctx }/resources/layui/layui.js"></script>
+	
+	<!-- 查看大图弹出的层 开始 -->
+	<div id="viewCarImageDiv" style="display: none;text-align: center;">
+		<img alt="车辆图片" width="550" height="350" id="view_carimg">
+	</div>
+	<!-- 查看大图弹出的层 结束 -->
+	
+	<script src="${ctx }/static/layui/layui.js"></script>
 	<script type="text/javascript">
 	    var tableIns;
 	    layui.use([ 'jquery', 'layer', 'form', 'table','upload'  ], function() {
@@ -186,12 +193,12 @@
 			      ,{field:'price', title:'购买价格',align:'center',width:'150'}
 			      ,{field:'rentprice', title:'出租价格',align:'center',width:'120'}
 			      ,{field:'deposit', title:'出租押金',align:'center',width:'120'}
-			      ,{field:'isrenting', title:'出租状态',align:'center',width:'80',templet:function(d){
+			      ,{field:'isrenting', title:'出租状态',align:'center',width:'100',templet:function(d){
 			    	  return d.isrenting=='1'?'<font color=blue>已出租</font>':'<font color=red>未出租</font>';
 			      }}
-			      ,{field:'description', title:'车辆描述',align:'center',width:'80'}
-			      ,{field:'carimg', title:'缩略图',align:'center',width:'180',templet:function(d){
-			    	  return "<img width=40 height=40 src=${ctx}/file/downloadShowFile.action?path="+d.carimg+" />";
+			      ,{field:'description', title:'车辆描述',align:'center',width:'180'}
+			      ,{field:'carimg', title:'缩略图',align:'center',width:'120',templet:function(d){
+			    	  return "<img width=40 height=30 src=${ctx}/file/downloadShowFile.action?path="+d.carimg+" />";
 			      }}
 			      ,{field:'createtime', title:'录入时间',align:'center',width:'180'}
 			      ,{fixed: 'right', title:'操作', toolbar: '#carBar', width:220,align:'center'}
@@ -234,16 +241,18 @@
 			   var data = obj.data; //获得当前行数据
 			   var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 			  if(layEvent === 'del'){ //删除
-				  layer.confirm('真的删除【'+data.custname+'】这个车辆吗', function(index){
+				  layer.confirm('真的删除【'+data.carnumber+'】这个车辆吗', function(index){
 				       //向服务端发送删除指令
-				       $.post("${ctx}/car/deleteCar.action",{identity:data.identity},function(res){
+				       $.post("${ctx}/car/deleteCar.action",{carnumber:data.carnumber},function(res){
 				    	   layer.msg(res.msg);
 				    	    //刷新数据 表格
 							tableIns.reload();
 				       })
 				     }); 
 			   } else if(layEvent === 'edit'){ //编辑
-			     openUpdateCar(data);
+			      openUpdateCar(data);
+			   }else if(layEvent==='viewImage'){
+				   showCarImage(data);
 			   }
 			 });
 			
@@ -263,6 +272,7 @@
 						$("#showCarImg").attr("src","${ctx}/file/downloadShowFile.action?path=images/defaultcarimage.jpg")
 						$("#carimg").val("images/defaultcarimage.jpg")
 						url="${ctx}/car/addCar.action";
+						$("#carnumber").removeAttr("readonly");
 					}
 				});
 			}
@@ -275,8 +285,9 @@
 					area:['1000px','450px'],
 					success:function(index){
 						form.val("dataFrm",data);
-						$("#showCarImg").attr("src","${ctx}/file/downloadShowFile.action?path="+data.carimg)
+						$("#showCarImg").attr("src","${ctx}/file/downloadShowFile.action?path="+data.carimg);
 						url="${ctx}/car/updateCar.action";
+						$("#carnumber").attr("readonly","readonly");
 					}
 				});
 			}
@@ -301,9 +312,9 @@
 			    var params="";
 			    $.each(data,function(i,item){
 			    	if(i==0){
-			    		params+="ids="+item.identity;
+			    		params+="ids="+item.carnumber;
 			    	}else{
-			    		params+="&ids="+item.identity;
+			    		params+="&ids="+item.carnumber;
 			    	}
 			    });
 			    layer.confirm('真的删除选中的这些车辆吗', function(index){
@@ -331,6 +342,20 @@
 		            $('#carimgDiv').css("background","#fff");
 		        }
 		    });
+			
+			//查看大图
+			function showCarImage(data){
+				
+				mainIndex=layer.open({
+					type:1,
+					title:"【"+data.carnumber+'】的车辆图片',
+					content:$("#viewCarImageDiv"),
+					area:['600px','400px'],
+					success:function(index){
+						$("#view_carimg").attr("src","${ctx}/file/downloadShowFile.action?path="+data.carimg);
+					}
+				});
+			}
 		});
 	</script>
 </body>

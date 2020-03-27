@@ -1,5 +1,6 @@
 package com.lloyvet.bus.service;
 
+import com.lloyvet.bus.domain.Customer;
 import com.lloyvet.bus.vo.CustomerVo;
 import com.lloyvet.sys.utils.DataGridView;
 
@@ -40,4 +41,10 @@ public interface CustomerService {
      */
     void deleteBatchCustomer(String[] identity);
 
+    /**
+     * 根据身份证号查询客户信息
+     * @param identity
+     * @return
+     */
+    Customer queryCustomerByIdentity(String identity);
 }

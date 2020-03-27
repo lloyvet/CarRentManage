@@ -47,4 +47,9 @@ public class CustomerServiceImpl implements CustomerService {
             deleteCustomer(identity);
         }
     }
+
+    @Override
+    public Customer queryCustomerByIdentity(String identity) {
+        return customerMapper.selectByPrimaryKey(identity);
+    }
 }

@@ -26,5 +26,25 @@ public class BusController {
     public String toCarManager(){
         return "business/car/carManager";
     }
-
+    /**
+     * 跳转车辆出租页面
+     */
+    @RequestMapping("toRentCarManager")
+    public String toRentCarManager(){
+        return "business/rent/rentCarManager";
+    }
+    /**
+     * 跳转汽车出租单页面
+     */
+    @RequestMapping("toRentManager")
+    public String toRentManager(){
+        return "business/rent/rentManager";
+    }
+    /**
+     * 跳转汽车入库页面
+     */
+    @RequestMapping("toCheckManager")
+    public String toCheckManager(){
+        return "business/check/checkCarManager";
+    }
 }

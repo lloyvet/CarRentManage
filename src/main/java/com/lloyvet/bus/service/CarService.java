@@ -1,5 +1,6 @@
 package com.lloyvet.bus.service;
 
+import com.lloyvet.bus.domain.Car;
 import com.lloyvet.bus.vo.CarVo;
 import com.lloyvet.sys.utils.DataGridView;
 
@@ -40,4 +41,5 @@ public interface CarService {
      */
     void deleteBatchCar(String[] carnumbers);
 
+    Car queryCarByCarNumber(String carnumber);
 }

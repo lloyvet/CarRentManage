@@ -44,4 +44,31 @@ public interface SysConstast {
      * 默认密码
      */
     String USER_DEFAULT_PWD = "123456";
+    /**
+     * 临时文件标记
+     */
+    String FILE_UPLOAD_TEMP = "_temp";
+    /**
+     * 默认图片地址
+     */
+    Object DEFAULT_CAR_IMG = "images/defaultcarimage.jpg";
+
+    /**
+     * 单号的前缀
+     */
+    String CAR_ORDER_CZ = "CZ";
+    String CAR_ORDER_JC = "JC";
+
+    /**
+     * 归还状态
+     */
+    Integer RENT_BACK_FALSE = 0;
+    Integer RENT_BACK_TRUE = 1;
+
+    /**
+     * 出租状态
+     */
+    Integer RENT_CAR_TRUE = 1;
+    Integer RENT_CAR_FALSE = 0;
+
 }

@@ -1,7 +1,10 @@
 package com.lloyvet.bus.controller;
 
+import com.lloyvet.bus.domain.Car;
 import com.lloyvet.bus.service.CarService;
 import com.lloyvet.bus.vo.CarVo;
+import com.lloyvet.sys.constast.SysConstast;
+import com.lloyvet.sys.utils.AppFileUtils;
 import com.lloyvet.sys.utils.DataGridView;
 import com.lloyvet.sys.utils.ResultObj;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +52,18 @@ public class CarController {
     @RequestMapping("updateCar")
     public ResultObj updateCar(CarVo carVo){
         try {
+            String carimg = carVo.getCarimg();
+            if(!carimg.endsWith(SysConstast.FILE_UPLOAD_TEMP)){
+                //不是以temp结尾并且不是默认图片
+                if(!carimg.equals(SysConstast.DEFAULT_CAR_IMG)){
+                    String path = AppFileUtils.updateFileName(carVo.getCarimg(),SysConstast.FILE_UPLOAD_TEMP);
+                    carVo.setCarimg(path);
+                    //把原来的删除
+                    Car car = carService.queryCarByCarNumber(carVo.getCarnumber());
+                    AppFileUtils.removeFileByPath(car.getCarimg());
+                }
+
+            }
             carService.updateCar(carVo);
             return ResultObj.UPDATE_SUCCESS;
         } catch (Exception e) {
