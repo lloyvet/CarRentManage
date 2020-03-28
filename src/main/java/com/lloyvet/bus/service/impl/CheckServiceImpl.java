@@ -1,5 +1,7 @@
 package com.lloyvet.bus.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.lloyvet.bus.domain.Car;
 import com.lloyvet.bus.domain.Check;
 import com.lloyvet.bus.domain.Customer;
@@ -12,6 +14,7 @@ import com.lloyvet.bus.service.CheckService;
 import com.lloyvet.bus.vo.CheckVo;
 import com.lloyvet.sys.constast.SysConstast;
 import com.lloyvet.sys.domain.User;
+import com.lloyvet.sys.utils.DataGridView;
 import com.lloyvet.sys.utils.RandomUtils;
 import com.lloyvet.sys.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -66,5 +70,17 @@ public class CheckServiceImpl implements CheckService {
         car.setCarnumber(rent.getCarnumber());
         car.setIsrenting(SysConstast.RENT_CAR_FALSE);
         carMapper.updateByPrimaryKeySelective(car);
+    }
+
+    @Override
+    public DataGridView queryAllCheck(CheckVo checkVo) {
+        Page<Object> page = PageHelper.startPage(checkVo.getPage(),checkVo.getLimit());
+        List<Check> checks = checkMapper.queryAllCheck(checkVo);
+        return new DataGridView(page.getTotal(),checks);
+    }
+
+    @Override
+    public void updateCheck(CheckVo checkVo) {
+        checkMapper.updateByPrimaryKeySelective(checkVo);
     }
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lloyvet.stat.mapper.StatMapper">
+<!--  查询客户地区的数据-->
+  <select id="queryCustomerAreaStat" resultType="com.lloyvet.stat.domain.BaseEntity">
+    select address as name,count(*) as value
+    from bus_customer
+    group by address
+  </select>
+<!--  查询业务员年度数据-->
+  <select id="queryOpernameYearGradeStat" resultType="com.lloyvet.stat.domain.BaseEntity">
+    select opername as name, sum(price) as value from bus_rent
+    where DATE_FORMAT(createtime,"%Y") = #{year} GROUP by opername
+
+  </select>
+<!--  查询公司年度每月盈利-->
+  <select id="queryCompanyYearGradeStat" resultType="DOUBLE">
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'01') union all
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'02') union all
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'03')union all
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'04')union all
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'05')union all
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'06')union all
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'07')union all
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'08')union all
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'09')union all
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'10')union all
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'11')union all
+    select sum(price) from bus_rent where DATE_FORMAT(createtime,"%Y%m")=concat(#{year},'12')
+  </select>
+
+</mapper>

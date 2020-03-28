@@ -255,4 +255,30 @@
       createtime = #{createtime,jdbcType=TIMESTAMP}
     where checkid = #{checkid,jdbcType=VARCHAR}
   </update>
+  <select id="queryAllCheck" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from bus_check
+    <where>
+      <if test="checkid!=null and checkid!=''">
+        and checkid like concat("%",#{checkid},"%")
+      </if>
+      <if test="rentid!=null and rentid!=''">
+        and rentid like concat("%",#{rentid},"%")
+      </if>
+      <if test="problem!=null and problem!=''">
+        and problem like concat("%",#{problem},"%")
+      </if>
+      <if test="checkdesc!=null and checkdesc!=''">
+        and ckeckdesc like concat("%",#{checkdesc},"%")
+      </if>
+      <if test="startTime!=null">
+        and checkdate >= #{startTime}
+      </if>
+      <if test="endTime!=null">
+        and checkdate <![CDATA[<=]]> #{endTime}
+      </if>
+    </where>
+    order by createtime desc
+  </select>
 </mapper>

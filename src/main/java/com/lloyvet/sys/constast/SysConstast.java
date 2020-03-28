@@ -71,4 +71,5 @@ public interface SysConstast {
     Integer RENT_CAR_TRUE = 1;
     Integer RENT_CAR_FALSE = 0;
 
+    String USER_LOGIN_CODE_ERROR_MSG = "验证码错误";
 }

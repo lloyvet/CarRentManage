@@ -27,4 +27,6 @@ public interface CheckMapper {
     int updateByPrimaryKeySelective(Check record);
 
     int updateByPrimaryKey(Check record);
+
+    List<Check> queryAllCheck(Check check);
 }

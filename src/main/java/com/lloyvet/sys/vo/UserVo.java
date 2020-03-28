@@ -8,6 +8,16 @@ public class UserVo extends User {
      */
     private Integer page;
     private Integer limit;
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     //用于接收多个角色id
     private Integer[] ids;
 

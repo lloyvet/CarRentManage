@@ -47,4 +47,11 @@ public class BusController {
     public String toCheckManager(){
         return "business/check/checkCarManager";
     }
+    /**
+     * 跳转出租单
+     */
+    @RequestMapping("toCheck")
+    public String toCheck(){
+        return "business/check/checkManager";
+    }
 }

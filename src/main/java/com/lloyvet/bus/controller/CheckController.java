@@ -1,5 +1,6 @@
 package com.lloyvet.bus.controller;
 
+import com.lloyvet.bus.domain.Check;
 import com.lloyvet.bus.domain.Rent;
 import com.lloyvet.bus.service.CheckService;
 import com.lloyvet.bus.service.RentService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,6 +54,26 @@ public class CheckController {
         }catch (Exception e){
             e.printStackTrace();
             return ResultObj.ADD_ERROR;
+        }
+    }
+    /**
+     * 加载出租单
+     */
+    @RequestMapping("loadAllCheck")
+    public DataGridView loadAllCheck(CheckVo checkVo){
+        return checkService.queryAllCheck(checkVo);
+    }
+    /**
+     * 更新
+     */
+    @RequestMapping("updateCheck")
+    public ResultObj updateCheck(CheckVo checkVo){
+        try{
+            checkService.updateCheck(checkVo);
+            return ResultObj.UPDATE_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.UPDATE_ERROR;
         }
     }
 
